@@ -1,13 +1,15 @@
 <script setup>
-  defineProps({
-    imageUrl: String,
-    title: String,
-    price: Number,
-    isFavorite: Boolean,
-    isAddedToCart: Boolean,
-    onClickAddToCart: Function,
-    onClickFavorite: Function
-  })
+
+defineProps({
+  id: Number,
+  imageUrl: String,
+  title: String,
+  price: String,
+  isFavorite: Boolean,
+  isAddedToCart: Boolean,
+  onClickAddToCart: Function,
+  onClickFavorite: Function
+})
 </script>
 
 <template>
@@ -77,11 +79,14 @@
 
 .product-card__image {
   position: relative;
+
 }
 
 .product-card__image img {
   display: block;
   width: 100%;
+  max-height: 480px;
+  height: 100%;
 }
 
 .product-card__image .btn-favs {
