@@ -1,3 +1,7 @@
+<script setup>
+const emit = defineEmits(['openCart']);
+</script>
+
 <template>
   <header class="header">
     <div class="container header__container">
@@ -62,18 +66,17 @@
         </svg>
       </a>
 
-      <button class="btn-reset burger">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g id="icons">
-            <path id="Vector 4 (Stroke)" fill-rule="evenodd" clip-rule="evenodd"
-              d="M0 13.5C0 13.2239 0.223858 13 0.5 13H19.5C19.7761 13 20 13.2239 20 13.5C20 13.7761 19.7761 14 19.5 14H0.5C0.223858 14 0 13.7761 0 13.5Z"
-              fill="#05070B" />
-            <path id="Vector 5 (Stroke)" fill-rule="evenodd" clip-rule="evenodd"
-              d="M0 6.5C0 6.22386 0.223858 6 0.5 6H19.5C19.7761 6 20 6.22386 20 6.5C20 6.77614 19.7761 7 19.5 7H0.5C0.223858 7 0 6.77614 0 6.5Z"
-              fill="#05070B" />
-          </g>
-        </svg>
-      </button>
+      <div class="header__rside">
+        <button @click="() => emit('openCart')" href="/cart/" class="btn-reset header__cart">
+          BAG
+
+          <span class="header__cart-count">1</span>
+        </button>
+
+        <a href="/favorites/" class="header__favs">
+          favs
+        </a>
+      </div>
     </div>
   </header>
 </template>
@@ -107,5 +110,34 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.header__rside {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.header__rside a {
+  font-size: 16px;
+  line-height: 20px;
+  color: #05070B;
+  text-transform: uppercase;
+}
+
+.header__cart {
+  position: relative;
+  font-size: 16px;
+  line-height: 20px;
+  color: #05070B;
+  text-transform: uppercase;
+}
+
+.header__cart-count {
+  position: absolute;
+  top: 0;
+  right: -5px;
+  font-size: 10px;
+  line-height: 10px;
 }
 </style>

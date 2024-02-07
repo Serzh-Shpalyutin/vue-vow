@@ -1,5 +1,4 @@
 <script setup>
-
 defineProps({
   id: Number,
   imageUrl: String,
@@ -9,13 +8,13 @@ defineProps({
   isAddedToCart: Boolean,
   onClickAddToCart: Function,
   onClickFavorite: Function
-})
+});
 </script>
 
 <template>
   <article class="product-card">
     <div class="product-card__image">
-      <img :src="imageUrl" alt="">
+      <img :src="imageUrl" :alt="title">
 
       <button @click="onClickFavorite" class="btn-reset btn-favs">
         <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -66,8 +65,8 @@ defineProps({
 
       <span class="product-card__price">{{ price }} Dh</span>
 
-      <button @click="onClickAddToCart" v-if="!isAddedToCart" class="btn btn-reset add-to-cart">add to bag</button>
-      <button @click="onClickAddToCart" v-else class="btn btn-reset add-to-cart add-to-cart--active">added to bag</button>
+      <button @click="onClickAddToCart"  v-text="!isAddedToCart ? 'add to bag' : 'remove from bag'" :class="!isAddedToCart ? '' : 'added'" class="btn btn-reset add-to-cart">
+      </button>
     </div>
   </article>
 </template>
@@ -154,7 +153,7 @@ defineProps({
   font-size: 16px;
 }
 
-.add-to-cart--active,
+.added,
 .btn:hover {
   background-color: #05070B;
   color: #fff;

@@ -1,6 +1,17 @@
+<script setup>
+defineProps({
+  id: Number,
+  imageUrl: String,
+  title: String,
+  price: String,
+});
+
+const emit = defineEmits(['onClickRemove']);
+</script>
+
 <template>
   <article class="cart-item">
-    <button class="btn-reset cart-item__close">
+    <button @click="() => emit('onClickRemove')" class="btn-reset cart-item__close">
       <svg width="15" height="15" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="icons">
           <path id="Vector 4 (Stroke)" fill-rule="evenodd" clip-rule="evenodd"
@@ -14,16 +25,16 @@
     </button>
     <div class="cart-item__lside">
       <div class="cart-item__image">
-        <img src="../../public/product1.jpg" alt="product" />
+        <img :src="imageUrl" :alt="title" />
       </div>
     </div>
 
     <div class="cart-item__rside">
-      <h3 class="cart-item__title">Golden Sunset</h3>
+      <h3 class="cart-item__title">{{ title }}</h3>
 
       <span class="cart-item__delivery-info">24 hours pre-order</span>
 
-      <span class="cart-item__price">590 Dh</span>
+      <span class="cart-item__price">{{ price }} Dh</span>
     </div>
   </article>
 </template>

@@ -1,9 +1,11 @@
 <script setup>
 import CartList from './CartList.vue';
+
+const emit = defineEmits(['closeCart']);
 </script>
 
 <template>
-  <div class="overlay"></div>
+  <div @click="() => emit('closeCart')" class="overlay"></div>
   <aside class="cart">
     <h2 class="cart__title">BAG</h2>
 
@@ -29,9 +31,11 @@ import CartList from './CartList.vue';
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 1;
+  cursor: pointer;
 }
 
 .cart {
+  overflow: auto;
   position: fixed;
   top: 0;
   right: 0;
