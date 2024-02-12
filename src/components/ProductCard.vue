@@ -139,23 +139,4 @@ defineProps({
   line-height: 30px;
   color: #646566;
 }
-
-.btn {
-  width: 100%;
-  border: 1px solid #05070B;
-  color: #05070B;
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-transform: uppercase;
-  transition: background-color .2s ease-in-out, color .2s ease-in-out;
-  font-size: 16px;
-}
-
-.added,
-.btn:hover {
-  background-color: #05070B;
-  color: #fff;
-}
 </style>

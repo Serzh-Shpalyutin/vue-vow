@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch, reactive, provide } from 'vue';
+import { onMounted, ref, watch, reactive, provide, computed } from 'vue';
 import axios from 'axios';
 
 import Header from './components/Header.vue';
@@ -8,6 +8,11 @@ import Cart from './components/Cart.vue';
 
 const items = ref([]);
 const cartItems = ref([]);
+const isCreatingOrder = ref(false);
+
+const totalPrice = computed(() => cartItems.value.reduce((acc, item) => acc + parseFloat(item.price), 0));
+const cartButtonDisabled = computed(() => isCreatingOrder.value || cartIsEmpty.value);
+const cartIsEmpty = computed(() => cartItems.value.length === 0)
 
 const cartState = ref(false);
 
@@ -32,6 +37,25 @@ const removeFromCart = (item) => {
   cartItems.value.splice(cartItems.value.indexOf(item), 1);
   item.isAddedToCart = false;
   console.log(cartItems.value);
+}
+
+const createOrder = async () => {
+  try {
+    isCreatingOrder.value = true;
+    const { data } = await axios.post('https://c830cc050abe55c8.mokky.dev/orders', {
+      items: cartItems.value,
+      totalPrice: totalPrice.value,
+    });
+
+    cartItems.value = [];
+    cartState.value = false;
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    isCreatingOrder.value = false;
+  }
 }
 
 const onClickAddToCart = (item) => {
@@ -128,6 +152,13 @@ onMounted(async () => {
 });
 watch(filters, fetchItems);
 
+watch(cartItems, () => {
+  items.value = items.value.map((item) => ({
+    ...item,
+    isAddedToCart: false
+  }))
+});
+
 provide('cart', {
   cartItems,
   openCart,
@@ -140,7 +171,8 @@ provide('cart', {
 
 <template>
   <Header @openCart="openCart" />
-  <Cart v-if="cartState" @closeCart="closeCart" />
+  <Cart v-if="cartState" @closeCart="closeCart" :totalPrice="totalPrice" @createOrder="createOrder"
+    :cartButtonDisabled="cartButtonDisabled" />
   <main class="main">
     <section class="catalog">
       <div class="container">

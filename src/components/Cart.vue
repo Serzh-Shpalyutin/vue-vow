@@ -1,7 +1,14 @@
 <script setup>
 import CartList from './CartList.vue';
 
-const emit = defineEmits(['closeCart']);
+const emit = defineEmits(['closeCart', 'createOrder']);
+
+const props = defineProps({
+  totalPrice: Number,
+  cartButtonDisabled: Boolean
+})
+
+
 </script>
 
 <template>
@@ -15,8 +22,10 @@ const emit = defineEmits(['closeCart']);
       <div class="cart__details">
         <div class="cart__total">
           Total amount:
-          <span>10 000</span> Dh
+          <span>{{ totalPrice }}</span> Dh
         </div>
+
+        <button @click="() => emit('createOrder')" :disabled="cartButtonDisabled" class="btn btn-reset btn-checkout">go to checkout</button>
       </div>
     </div>
   </aside>
@@ -56,8 +65,19 @@ const emit = defineEmits(['closeCart']);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 80vh;
 }
 .cart__details {
-  margin-top: auto;
+  margin-top: 20px;
+}
+
+.cart__total {
+  font-size: 18px;
+  line-height: 108%;
+  margin-bottom: 20px;
+}
+
+.btn-checkout[disabled] {
+  opacity: 0.3;
 }
 </style>
