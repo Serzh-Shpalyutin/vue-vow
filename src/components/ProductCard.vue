@@ -16,7 +16,7 @@ defineProps({
     <div class="product-card__image">
       <img :src="imageUrl" :alt="title">
 
-      <button @click="onClickFavorite" class="btn-reset btn-favs">
+      <button v-if="onClickFavorite" @click="onClickFavorite" class="btn-reset btn-favs">
         <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="icons">
             <g id="Vector">
@@ -65,7 +65,8 @@ defineProps({
 
       <span class="product-card__price">{{ price }} Dh</span>
 
-      <button @click="onClickAddToCart"  v-text="!isAddedToCart ? 'add to bag' : 'remove from bag'" :class="!isAddedToCart ? '' : 'added'" class="btn btn-reset add-to-cart">
+      <button v-if="onClickAddToCart" @click="onClickAddToCart" v-text="!isAddedToCart ? 'add to bag' : 'remove from bag'"
+        :class="!isAddedToCart ? '' : 'added'" class="btn btn-reset add-to-cart">
       </button>
     </div>
   </article>

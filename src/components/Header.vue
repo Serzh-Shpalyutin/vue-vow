@@ -1,5 +1,9 @@
 <script setup>
 const emit = defineEmits(['openCart']);
+
+defineProps({
+  cartItemsCount: Number
+})
 </script>
 
 <template>
@@ -16,7 +20,7 @@ const emit = defineEmits(['openCart']);
         </svg>
       </button>
 
-      <a href="#" class="logo">
+      <router-link to="/" class="logo">
         <svg width="224" height="30" viewBox="0 0 224 30" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="logo">
             <g id="logo_2">
@@ -64,18 +68,18 @@ const emit = defineEmits(['openCart']);
             </g>
           </g>
         </svg>
-      </a>
+      </router-link>
 
       <div class="header__rside">
         <button @click="() => emit('openCart')" href="/cart/" class="btn-reset header__cart">
           BAG
 
-          <span class="header__cart-count">1</span>
+          <span class="header__cart-count">{{ cartItemsCount }}</span>
         </button>
 
-        <a href="/favorites/" class="header__favs">
+        <router-link to="/favorites/" class="header__favs">
           favs
-        </a>
+        </router-link>
       </div>
     </div>
   </header>

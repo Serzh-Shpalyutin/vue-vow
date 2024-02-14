@@ -207,3 +207,19 @@ h6 {
   background-color: #05070B;
   color: #fff;
 }
+
+.title {
+  font-size: 56px;
+  line-height: 60px;
+}
+
+.catalog {
+  padding: 120px 0px;
+}
+
+.catalog__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}

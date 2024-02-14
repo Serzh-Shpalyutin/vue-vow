@@ -7,8 +7,6 @@ const props = defineProps({
   totalPrice: Number,
   cartButtonDisabled: Boolean
 })
-
-
 </script>
 
 <template>
