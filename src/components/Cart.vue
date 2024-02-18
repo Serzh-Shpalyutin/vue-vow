@@ -1,21 +1,54 @@
 <script setup>
+import { ref, inject, computed } from 'vue';
+import axios from 'axios';
 import CartList from './CartList.vue';
 
-const emit = defineEmits(['closeCart', 'createOrder']);
+const {
+  cartItems,
+  closeCart,
+} = inject('cart');
 
-const props = defineProps({
-  totalPrice: Number,
-  cartButtonDisabled: Boolean
-})
+const totalPrice = computed(() => cartItems.value.reduce((acc, item) => acc + parseFloat(item.price), 0));
+const isCreatingOrder = ref(false);
+const orderId = ref(null);
+
+const createOrder = async () => {
+  try {
+    isCreatingOrder.value = true;
+    const { data } = await axios.post('https://c830cc050abe55c8.mokky.dev/orders', {
+      items: cartItems.value,
+      totalPrice: totalPrice.value,
+    });
+
+    cartItems.value = [];
+
+    orderId.value = data.id;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    isCreatingOrder.value = false;
+  }
+}
+
+
+const buttonDisabled = computed(() => isCreatingOrder.value || cartIsEmpty.value);
+const cartIsEmpty = computed(() => cartItems.value.length === 0)
 </script>
 
 <template>
-  <div @click="() => emit('closeCart')" class="overlay"></div>
+  <div @click="closeCart" class="overlay"></div>
   <aside class="cart">
     <h2 class="cart__title">BAG</h2>
 
     <div class="cart__content">
-      <CartList />
+      <div class="cart__inner">
+        <CartList />
+
+        <div class="cart__empty" v-if="cartIsEmpty || orderId">
+          <p v-if="cartIsEmpty && !orderId">Cart is empty</p>
+          <p class="cart__order" v-else-if="orderId">Ваш заказ <span>#{{ orderId }}</span> успешно оформлен и в ближайшее время будет передан в службу доставки</p>
+        </div>
+      </div>
 
       <div class="cart__details">
         <div class="cart__total">
@@ -23,7 +56,7 @@ const props = defineProps({
           <span>{{ totalPrice }}</span> Dh
         </div>
 
-        <button @click="() => emit('createOrder')" :disabled="cartButtonDisabled" class="btn btn-reset btn-checkout">go to checkout</button>
+        <button @click="createOrder" :disabled="buttonDisabled" class="btn btn-reset btn-checkout">go to checkout</button>
       </div>
     </div>
   </aside>
@@ -65,6 +98,7 @@ const props = defineProps({
   justify-content: space-between;
   height: 80vh;
 }
+
 .cart__details {
   margin-top: 20px;
 }
@@ -77,5 +111,14 @@ const props = defineProps({
 
 .btn-checkout[disabled] {
   opacity: 0.3;
+}
+
+.cart__order {
+  font-size: 18px;
+  line-height: 110%;
+  text-align: center;
+}
+.cart__order span {
+  font-weight: 700;
 }
 </style>

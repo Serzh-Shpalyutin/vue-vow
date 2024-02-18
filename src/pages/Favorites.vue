@@ -23,7 +23,16 @@ onMounted(async () => {
         <h1 class="title">Favorites</h1>
       </div>
 
-      <CatalogList :items="favorites" isFavorites />
+      <CatalogList v-if="favorites.length" :items="favorites" isFavorites />
+
+      <p class="catalog__empty" v-else>No items in favorites</p>
     </div>
   </section>
 </template>
+
+<style scoped>
+  .catalog__empty {
+    font-size: 16px;
+    line-height: 110%;
+  }
+</style>

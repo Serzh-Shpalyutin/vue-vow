@@ -6,7 +6,7 @@ const { cartItems, removeFromCart } = inject('cart');
 </script> 
 
 <template>
-  <div v-auto-animate v-if="cartItems.length" class="cart__list">
+  <div v-auto-animate class="cart__list">
     <CartItem 
     v-for="item in cartItems" 
     :key="item.id" :id="item.id" 
@@ -16,10 +16,6 @@ const { cartItems, removeFromCart } = inject('cart');
     :isAddedToCart="item.isAddedToCart"
     @onClickRemove="() => removeFromCart(item)"
     />
-  </div>
-
-  <div v-else>
-    <p>Cart is empty</p>
   </div>
 </template>
 
